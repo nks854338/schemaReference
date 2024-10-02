@@ -15,7 +15,7 @@ const CreatePost = ({ isLoggedIn, onPostCreated }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3300/posts",
+        "https://schema-reference-backend.vercel.app/posts",
         { title: postTitle, content: postContent }, // Send title and content to server
         {
           headers: { Authorization: `Bearer ${token}` }, // Authorization header

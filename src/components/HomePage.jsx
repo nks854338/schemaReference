@@ -11,7 +11,7 @@ const HomePage = () => {
   // Function to fetch posts
   const fetchPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:3300/posts", {
+      const response = await axios.get("https://schema-reference-backend.vercel.app/posts", {
         headers: {
           Authorization: `Bearer ${token}`, // Pass the token in headers
         },

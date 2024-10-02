@@ -15,7 +15,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3300/users/login",
+        "https://schema-reference-backend.vercel.app/users/login",
         formData
       );
       if (response.data.token) {
