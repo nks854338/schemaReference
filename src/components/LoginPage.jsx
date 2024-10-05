@@ -3,69 +3,50 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = ({ setIsLoggedIn }) => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://schema-reference-backend.vercel.app/users/login",
-        formData
-      );
+      const response = await axios.post("https://schema-reference-backend.vercel.app/login", {
+        email,
+        password,
+      });
+      
       if (response.data.token) {
         localStorage.setItem("authToken", response.data.token);
-        setIsLoggedIn(true); // Update login state
+        setIsLoggedIn(true);
         navigate("/home");
-      } else {
-        setErrorMessage("Login failed. Please try again.");
       }
     } catch (error) {
-      setErrorMessage("Invalid email or password :", error);
+      setError("Invalid credentials or user not found.");
     }
   };
 
   return (
-    <div className="Container">
-      <div className="formContainer">
-        <form onSubmit={handleSubmit}>
-          <div>
-            <div>Email</div>
-            <div>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email"
-                required
-              />
-            </div>
-          </div>
-          <div>
-            <div>Password</div>
-            <div>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Password"
-                required
-              />
-            </div>
-          </div>
-          <button type="submit">Login</button>
-        </form>
-        <div style={{ textAlign: "center" }}>
-          {errorMessage && <p>{errorMessage}</p>}
-        </div>
-      </div>
+    <div>
+      <h2>Login</h2>
+      {error && <p>{error}</p>}
+      <form onSubmit={handleLogin}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 };
