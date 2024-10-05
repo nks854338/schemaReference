@@ -25,6 +25,8 @@ const App = () => {
           path="/home"
           element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />} 
         />
+        {/* Catch all other routes and redirect to home */}
+        <Route path="*" element={<Navigate to="/home" />} />
       </Routes>
     </Router>
   );
